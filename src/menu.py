@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 class Menu:
-    def __init__(self):
+    def __init__(self, window):
         self.font = None
         self.background = None
-        self.Attribute1 = None
+        self.window = window
 
     def draw(self, ):
         pass
