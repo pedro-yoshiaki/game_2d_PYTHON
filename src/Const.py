@@ -1,2 +1,14 @@
+# C
+COLOR_DARK_ORANGE = (200, 80, 0)
+COLOR_MENU_TITLE = (45, 25, 60)
+COLOR_WHITE = (255, 255, 255)
+
+# M
+MENU_OPTION = ('NEW GAME - SURVIVAL',
+               'NEW GAME - TIMER',
+               'SCORE',
+               'EXIT')
+
+# W
 WIN_WIDTH = 576
 WIN_HEIGHT = 324

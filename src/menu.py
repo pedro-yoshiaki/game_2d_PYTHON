@@ -2,18 +2,22 @@
 # -*- coding: utf-8 -*-
 
 import pygame
+from pygame import Surface, Rect
+from pygame.font import Font
+
+from src.Const import COLOR_DARK_ORANGE, COLOR_MENU_TITLE, COLOR_WHITE, MENU_OPTION, WIN_WIDTH
 
 
 class Menu:
     def __init__(self, window):
         self.window = window
-        # 1. Carregando as imagens (usando convert_alpha para manter a transparência do PNG)
+        # Carregando as imagens (usando convert_alpha para manter a transparência do PNG)
         self.bg_layer1 = pygame.image.load('./assets/background_menu/1.png').convert_alpha()
         self.bg_layer2 = pygame.image.load('./assets/background_menu/2.png').convert_alpha()
         self.bg_layer3 = pygame.image.load('./assets/background_menu/3.png').convert_alpha()
         self.bg_layer4 = pygame.image.load('./assets/background_menu/4.png').convert_alpha()
         
-        # 2. Variáveis para controlar a posição X das nuvens (Parallax)
+        # Variáveis para controlar a posição X das nuvens (Parallax)
         self.cloud_x3 = 0
         self.cloud_x4 = 0
 
@@ -30,6 +34,12 @@ class Menu:
         self.window.blit(self.bg_layer4, (self.cloud_x4, 0))
         self.window.blit(self.bg_layer4, (self.cloud_x4 + self.bg_layer4.get_width(), 0)) # Truque do loop
 
+        self.menu_text(50, "Arena", COLOR_MENU_TITLE, ((WIN_WIDTH / 2), 70) )
+        self.menu_text(50, "Survival", COLOR_DARK_ORANGE, ((WIN_WIDTH / 2), 120) )
+
+        for i in range(len(MENU_OPTION)):
+            self.menu_text(20, MENU_OPTION[i], COLOR_WHITE, ((WIN_WIDTH / 2), 200 + 25 * i))
+
     def update_animation(self):
         # Aumente ou diminua os valores para alterar a velocidade do vento
         self.cloud_x3 -= 0.01
@@ -40,6 +50,15 @@ class Menu:
             self.cloud_x3 = 0
         if self.cloud_x4 <= -self.bg_layer4.get_width():
             self.cloud_x4 = 0
+
+    def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
+        text_font: pygame.Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
+        text_surf: pygame.Surface = text_font.render(text,True,text_color).convert_alpha()
+        text_rect: pygame.Rect = text_surf.get_rect(center=text_center_pos)
+        self.window.blit(source=text_surf, dest=text_rect)
+
+    def handle_input(self, ):
+        pass
 
     def run(self):
         pygame.mixer_music.load('./assets/soundtrack/Menu_sound.mp3')
@@ -54,6 +73,3 @@ class Menu:
                 if event.type == pygame.QUIT:
                     pygame.quit()  # Close Window
                     quit()         # end pygame
-
-    def handle_input(self, ):
-        pass
