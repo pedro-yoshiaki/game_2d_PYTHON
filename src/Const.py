@@ -1,14 +1,28 @@
+# Window
+WIN_WIDTH = 800
+WIN_HEIGHT = 600
+
+# A
+ARENA_TOP    = 60
+ARENA_LEFT   = 0
+ARENA_RIGHT  = WIN_WIDTH
+ARENA_BOTTOM = WIN_HEIGHT
+ASSET_PATH = './assets/'
+
 # C
 COLOR_DARK_ORANGE = (200, 80, 0)
 COLOR_MENU_TITLE = (45, 25, 60)
-COLOR_WHITE = (255, 255, 255)
+C_WHITE = (255, 255, 255)
+C_BLACK   = (0,   0,   0)
+C_RED     = (220, 50,  50)
+C_YELLOW  = (255, 220, 50)
+C_GREEN   = (50,  200, 80)
+C_ORANGE  = (255, 140, 0)
+C_GRAY    = (120, 120, 120)
+C_DARK    = (30,  30,  30)
+
+# F
+FPS = 60
 
 # M
-MENU_OPTION = ('NEW GAME - SURVIVAL',
-               'NEW GAME - TIMER',
-               'SCORE',
-               'EXIT')
-
-# W
-WIN_WIDTH = 576
-WIN_HEIGHT = 324
+MENU_OPTION = ('JOGAR', 'SAIR')

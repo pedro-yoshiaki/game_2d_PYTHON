@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Untitled",
+	"name": "Game",
 	"ownedElements": [
 		{
 			"_type": "UMLModel",
@@ -28,7 +28,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model1",
+			"name": "game-python",
 			"ownedElements": [
 				{
 					"_type": "UMLClassDiagram",
@@ -96,9 +96,9 @@
 											"parentStyle": true,
 											"left": -384,
 											"top": -416,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",
@@ -377,9 +377,9 @@
 											"parentStyle": true,
 											"left": -816,
 											"top": 352,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",
@@ -658,9 +658,9 @@
 											"parentStyle": true,
 											"left": -848,
 											"top": -32,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",
@@ -992,9 +992,9 @@
 											"parentStyle": true,
 											"left": -896,
 											"top": -592,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",
@@ -1198,9 +1198,9 @@
 											"parentStyle": true,
 											"left": 800,
 											"top": -528,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",
@@ -1496,9 +1496,9 @@
 											"parentStyle": true,
 											"left": 1184,
 											"top": 240,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",
@@ -1795,9 +1795,9 @@
 											"parentStyle": true,
 											"left": 464,
 											"top": 384,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",
@@ -2039,9 +2039,9 @@
 											"parentStyle": true,
 											"left": -320,
 											"top": 512,
-											"width": 80.9072265625,
+											"width": 114.14990234375,
 											"height": 13,
-											"text": "(from Model1)"
+											"text": "(from game-python)"
 										},
 										{
 											"_type": "LabelView",

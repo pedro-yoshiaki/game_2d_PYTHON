@@ -1,75 +1,162 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+import sys
 import pygame
-from pygame import Surface, Rect
+from pygame import Surface
 from pygame.font import Font
 
-from src.Const import COLOR_DARK_ORANGE, COLOR_MENU_TITLE, COLOR_WHITE, MENU_OPTION, WIN_WIDTH
+from src.Const import (
+    WIN_WIDTH, WIN_HEIGHT, FPS,
+    C_WHITE, C_YELLOW, C_ORANGE, C_GRAY, C_DARK, C_BLACK,
+    MENU_OPTION, ASSET_PATH,
+)
 
 
 class Menu:
-    def __init__(self, window):
+  
+    # Constantes visuais do menu
+    _BG_LAYERS = [
+        {'file': 'background_menu/1.png', 'speed': 0.2},
+        {'file': 'background_menu/2.png', 'speed': 0.5},
+        {'file': 'background_menu/3.png', 'speed': 0.9},
+        {'file': 'background_menu/4.png', 'speed': 1.4},
+    ]
+    _CONTROLS = [
+        ('WASD  /  ←↑↓→',  'Mover o personagem'),
+        ('ESPAÇO',          'Atacar com a espada'),
+        ('ENTER',           'Confirmar no menu'),
+        ('ESC',             'Sair do jogo'),
+    ]
+
+    def __init__(self, window: Surface):
         self.window = window
-        # Carregando as imagens (usando convert_alpha para manter a transparência do PNG)
-        self.bg_layer1 = pygame.image.load('./assets/background_menu/1.png').convert_alpha()
-        self.bg_layer2 = pygame.image.load('./assets/background_menu/2.png').convert_alpha()
-        self.bg_layer3 = pygame.image.load('./assets/background_menu/3.png').convert_alpha()
-        self.bg_layer4 = pygame.image.load('./assets/background_menu/4.png').convert_alpha()
-        
-        # Variáveis para controlar a posição X das nuvens (Parallax)
-        self.cloud_x3 = 0
-        self.cloud_x4 = 0
+        self.clock  = pygame.time.Clock()
 
-    def draw(self):
-        # Desenhando as camadas estáticas de fundo (Céu e Degradê)
-        self.window.blit(self.bg_layer1, (0, 0))
-        self.window.blit(self.bg_layer2, (0, 0))
-        
-        # Desenhando a primeira camada de nuvens (Movimento lento)
-        self.window.blit(self.bg_layer3, (self.cloud_x3, 0))
-        self.window.blit(self.bg_layer3, (self.cloud_x3 + self.bg_layer3.get_width(), 0)) # Truque do loop
-        
-        # Desenhando a segunda camada de nuvens (Movimento rápido)
-        self.window.blit(self.bg_layer4, (self.cloud_x4, 0))
-        self.window.blit(self.bg_layer4, (self.cloud_x4 + self.bg_layer4.get_width(), 0)) # Truque do loop
+        self.layers = []
+        for layer in self._BG_LAYERS:
+            surf = self._load_layer(layer['file'])
+            
+            self.layers.append({
+                'surf':  surf,
+                'speed': layer['speed'],
+                'x':     0.0,
+                'x2':    float(surf.get_width()),
+            })
 
-        self.menu_text(50, "Arena", COLOR_MENU_TITLE, ((WIN_WIDTH / 2), 70) )
-        self.menu_text(50, "Survival", COLOR_DARK_ORANGE, ((WIN_WIDTH / 2), 120) )
+        try:
+            pygame.mixer_music.load(ASSET_PATH + 'soundtrack/Menu_sound.mp3')
+            pygame.mixer_music.set_volume(0.35)
+            pygame.mixer_music.play(-1)
+        except pygame.error:
+            pass   
 
-        for i in range(len(MENU_OPTION)):
-            self.menu_text(20, MENU_OPTION[i], COLOR_WHITE, ((WIN_WIDTH / 2), 200 + 25 * i))
+    def _load_layer(self, filename: str) -> Surface:
+        try:
+            surf = pygame.image.load(ASSET_PATH + filename).convert_alpha()
+            
+            ratio  = WIN_HEIGHT / surf.get_height()
+            new_w  = int(surf.get_width() * ratio)
+            return pygame.transform.scale(surf, (new_w, WIN_HEIGHT))
+        except (pygame.error, FileNotFoundError):
+            
+            surf = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
+            surf.fill((20, 20, 40))
+            return surf
 
-    def update_animation(self):
-        # Aumente ou diminua os valores para alterar a velocidade do vento
-        self.cloud_x3 -= 0.01
-        self.cloud_x4 -= 0.02
+    def run(self) -> str:
+        selected = 0
 
-        # Quando a imagem sai totalmente da tela, ela reseta a posição para criar o loop contínuo
-        if self.cloud_x3 <= -self.bg_layer3.get_width():
-            self.cloud_x3 = 0
-        if self.cloud_x4 <= -self.bg_layer4.get_width():
-            self.cloud_x4 = 0
-
-    def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
-        text_font: pygame.Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
-        text_surf: pygame.Surface = text_font.render(text,True,text_color).convert_alpha()
-        text_rect: pygame.Rect = text_surf.get_rect(center=text_center_pos)
-        self.window.blit(source=text_surf, dest=text_rect)
-
-    def handle_input(self, ):
-        pass
-
-    def run(self):
-        pygame.mixer_music.load('./assets/soundtrack/Menu_sound.mp3')
-        pygame.mixer_music.play(-1)
         while True:
-            self.update_animation()
-            self.draw()
-            pygame.display.flip()
-        
-            # Check for all events
+            self.clock.tick(FPS)
+
+            # Eventos
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()  # Close Window
-                    quit()         # end pygame
+                    pygame.quit()
+                    sys.exit()
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        selected = (selected - 1) % len(MENU_OPTION)
+                    elif event.key == pygame.K_DOWN:
+                        selected = (selected + 1) % len(MENU_OPTION)
+                    elif event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+                        return MENU_OPTION[selected]
+                    elif event.key == pygame.K_ESCAPE:
+                        return MENU_OPTION[-1]
+
+            self._draw(selected)
+            pygame.display.flip()
+
+    def _draw(self, selected: int):
+        for layer in self.layers:
+            layer['x']  -= layer['speed']
+            layer['x2'] -= layer['speed']
+
+            sw = layer['surf'].get_width()
+            if layer['x'] + sw <= 0:
+                layer['x'] = layer['x2'] + sw
+            if layer['x2'] + sw <= 0:
+                layer['x2'] = layer['x'] + sw
+
+            self.window.blit(layer['surf'], (int(layer['x']),  0))
+            self.window.blit(layer['surf'], (int(layer['x2']), 0))
+
+        # Painel central semitransparente
+        panel_w, panel_h = 500, 440
+        panel_x = (WIN_WIDTH  - panel_w) // 2
+        panel_y = (WIN_HEIGHT - panel_h) // 2
+        panel   = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
+        panel.fill((0, 0, 0, 160))
+        self.window.blit(panel, (panel_x, panel_y))
+
+        cx = WIN_WIDTH // 2
+
+        # Título
+        self._text('ARENA',    56, C_ORANGE,  (cx, panel_y + 55),  bold=True)
+        self._text('SURVIVAL', 56, C_YELLOW,  (cx, panel_y + 115), bold=True)
+
+        # Separador
+        pygame.draw.line(self.window, C_GRAY,
+                         (panel_x + 30, panel_y + 148),
+                         (panel_x + panel_w - 30, panel_y + 148), 1)
+
+        # Controles
+        self._text('CONTROLES', 14, C_GRAY, (cx, panel_y + 170))
+        for i, (key, desc) in enumerate(self._CONTROLS):
+            y = panel_y + 192 + i * 22
+            self._text(f'{key}', 14, C_YELLOW, (cx - 5, y), anchor='right')
+            self._text(f'— {desc}', 14, C_WHITE,  (cx + 5, y), anchor='left')
+
+        # Separador
+        pygame.draw.line(self.window, C_GRAY,
+                         (panel_x + 30, panel_y + 285),
+                         (panel_x + panel_w - 30, panel_y + 285), 1)
+
+        # Opções de menu
+        for i, option in enumerate(MENU_OPTION):
+            y     = panel_y + 315 + i * 48
+            color = C_YELLOW if i == selected else C_WHITE
+            size  = 28      if i == selected else 22
+            self._text(option, size, color, (cx, y), bold=(i == selected))
+            if i == selected:
+                # Indicador de seleção
+                self._text('►', 22, C_ORANGE, (cx - 120, y))
+                self._text('◄', 22, C_ORANGE, (cx + 120, y))
+
+        # Rodapé
+        self._text('↑↓ para navegar   ENTER para selecionar', 12, C_GRAY,
+                   (cx, panel_y + panel_h - 18))
+
+    def _text(self, text: str, size: int, color: tuple, pos: tuple,
+              bold: bool = False, anchor: str = 'center'):
+        font = pygame.font.SysFont('Arial', size, bold=bold)
+        surf = font.render(text, True, color)
+        rect = surf.get_rect()
+        if anchor == 'center':
+            rect.center = pos
+        elif anchor == 'right':
+            rect.midright = pos
+        else:
+            rect.midleft = pos
+        self.window.blit(surf, rect)
