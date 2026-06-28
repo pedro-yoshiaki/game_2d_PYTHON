@@ -49,10 +49,20 @@ ENTITY_SPEED = {
     'Sword':     0,
     'EnemyShot': 5,
 }
+
+ENEMY_SHOT_DELAY = {
+    'Enemy1': 120,
+    'Enemy2': 80,
+}
+
+EVENT_ENEMY   = pygame.USEREVENT + 1
+EVENT_TIMEOUT = pygame.USEREVENT + 2
+
 # F
 FPS = 60
 
 # M
+MAX_ENEMIES = 10
 MENU_OPTION = ('JOGAR', 'SAIR')
 
 # P
@@ -70,3 +80,8 @@ PLAYER_LIVES = 3
 SWORD_DURATION = 12
 SWORD_OFFSET   = 40
 SWORD_COOLDOWN = 30
+SPAWN_TIME  = 3000
+
+# T
+TIMEOUT_STEP  = 100
+TIMEOUT_LEVEL = 90 * 1000
