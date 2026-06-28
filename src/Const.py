@@ -21,6 +21,30 @@ C_ORANGE  = (255, 140, 0)
 C_GRAY    = (120, 120, 120)
 C_DARK    = (30,  30,  30)
 
+# E
+ENTITY_HEALTH = {
+    'Player':    1,
+    'Enemy1':    2,
+    'Enemy2':    3,
+    'Sword':     1,
+    'EnemyShot': 1,
+}
+
+ENTITY_DAMAGE = {
+    'Player':    0,
+    'Enemy1':    1,
+    'Enemy2':    1,
+    'Sword':     1,
+    'EnemyShot': 1,
+}
+
+ENTITY_SPEED = {
+    'Player':    4,
+    'Enemy1':    2,
+    'Enemy2':    3,
+    'Sword':     0,
+    'EnemyShot': 5,
+}
 # F
 FPS = 60
 
