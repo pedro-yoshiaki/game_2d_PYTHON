@@ -1,4 +1,7 @@
 # Window
+import pygame
+
+
 WIN_WIDTH = 800
 WIN_HEIGHT = 600
 
@@ -50,3 +53,19 @@ FPS = 60
 
 # M
 MENU_OPTION = ('JOGAR', 'SAIR')
+
+# P
+PLAYER_KEYS = {
+    'up':     [pygame.K_w,    pygame.K_UP],
+    'down':   [pygame.K_s,    pygame.K_DOWN],
+    'left':   [pygame.K_a,    pygame.K_LEFT],
+    'right':  [pygame.K_d,    pygame.K_RIGHT],
+    'attack': [pygame.K_SPACE],
+}
+PLAYER_LIVES = 3
+
+
+# S
+SWORD_DURATION = 12
+SWORD_OFFSET   = 40
+SWORD_COOLDOWN = 30
