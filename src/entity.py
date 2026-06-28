@@ -21,7 +21,16 @@ class Entity:
             """Carrega a imagem do asset ou gera uma surface de placeholder."""
             try:
                 surf = pygame.image.load(ASSET_PATH + self.name + '.png').convert_alpha()
-                return surf
+                
+                nova_largura = 40
+                
+                proporcao = surf.get_height() / surf.get_width()
+                nova_altura = int(nova_largura * proporcao)
+                
+                surf_ajustada = pygame.transform.scale(surf, (nova_largura, nova_altura))
+                
+                return surf_ajustada
+
             except (pygame.error, FileNotFoundError):
                 # Placeholder geométrico se a imagem não for encontrada
                 return self._make_placeholder()
