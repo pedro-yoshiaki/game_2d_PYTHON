@@ -73,7 +73,7 @@ PLAYER_KEYS = {
     'right':  [pygame.K_d,    pygame.K_RIGHT],
     'attack': [pygame.K_SPACE],
 }
-PLAYER_LIVES = 100
+PLAYER_LIVES = 3
 
 
 # S
