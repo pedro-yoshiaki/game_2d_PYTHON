@@ -18,22 +18,13 @@ class Entity:
         self.last_dmg = 'None'
 
     def _load_surface(self) -> pygame.Surface:
-            """Carrega a imagem do asset ou gera uma surface de placeholder."""
-            try:
-                surf = pygame.image.load(ASSET_PATH + self.name + '.png').convert_alpha()
-                
-                nova_largura = 40
-                
-                proporcao = surf.get_height() / surf.get_width()
-                nova_altura = int(nova_largura * proporcao)
-                
-                surf_ajustada = pygame.transform.scale(surf, (nova_largura, nova_altura))
-                
-                return surf_ajustada
-
-            except (pygame.error, FileNotFoundError):
-                # Placeholder geométrico se a imagem não for encontrada
-                return self._make_placeholder()
+        """Carrega a imagem do asset ou gera uma surface de placeholder."""
+        try:
+            surf = pygame.image.load(ASSET_PATH + self.name + '.png').convert_alpha()
+            return surf
+        except (pygame.error, FileNotFoundError):
+            # Placeholder geométrico se a imagem não existir ainda
+            return self._make_placeholder()
 
     def _make_placeholder(self) -> pygame.Surface:
             """Surface colorida gerada em código, usada quando o PNG não existe."""
@@ -48,7 +39,7 @@ class Entity:
                 'Player':    (36, 48),
                 'Enemy1':    (36, 36),
                 'Enemy2':    (44, 44),
-                'Sword':     (32, 12),
+                'Sword':     (44, 44),
                 'EnemyShot': (14, 14),
             }
             color = colors.get(self.name, (150, 150, 150))

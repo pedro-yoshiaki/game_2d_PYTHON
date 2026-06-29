@@ -17,6 +17,7 @@ class Enemy(Entity):
         self.shot_delay  = ENEMY_SHOT_DELAY[name]
         self.shot_timer  = self.shot_delay    # começa já com delay cheio
         self.target_pos  = (WIN_WIDTH // 2, WIN_HEIGHT // 2)  # posição inicial do alvo
+        self.invincible  = 0  
 
     # Atualizar alvo
     def update_target(self, pos: tuple):
@@ -38,6 +39,8 @@ class Enemy(Entity):
         if self.shot_timer > 0:
             self.shot_timer -= 1
 
+        if self.invincible > 0:                
+            self.invincible -= 1
     # ── Disparo ────────────────────────────────────────────────────────────────
     def shoot(self):
         """

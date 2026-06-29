@@ -37,8 +37,16 @@ class Level:
         self.player = EntityFactory.get_entity('Player')
         self.entity_list.append(self.player)
 
+        bg_raw   = pygame.image.load('./assets/Battleground3.png').convert()
+        self._bg = pygame.transform.scale(
+            bg_raw,
+            (WIN_WIDTH, WIN_HEIGHT - ARENA_TOP)   # estica para preencher a área de jogo
+        )
+
         pygame.time.set_timer(EVENT_ENEMY,   SPAWN_TIME)
         pygame.time.set_timer(EVENT_TIMEOUT, TIMEOUT_STEP)
+
+        
 
     # ── Loop principal ────────────────────────────────────────────────────────
     def run(self) -> bool:
@@ -100,21 +108,9 @@ class Level:
     # ── Renderização ──────────────────────────────────────────────────────────
     def _draw(self):
         # Fundo
-        self.window.fill((40, 40, 40))
-        pygame.draw.rect(
-            self.window, (55, 55, 55),
-            (ARENA_LEFT, ARENA_TOP, ARENA_RIGHT - ARENA_LEFT, ARENA_BOTTOM - ARENA_TOP)
-        )
-        # Grade
-        for x in range(0, WIN_WIDTH, 80):
-            pygame.draw.line(self.window, (65, 65, 65), (x, ARENA_TOP), (x, ARENA_BOTTOM))
-        for y in range(ARENA_TOP, WIN_HEIGHT, 80):
-            pygame.draw.line(self.window, (65, 65, 65), (0, y), (WIN_WIDTH, y))
-        # Borda
-        pygame.draw.rect(
-            self.window, C_GRAY,
-            (ARENA_LEFT, ARENA_TOP, ARENA_RIGHT - ARENA_LEFT, ARENA_BOTTOM - ARENA_TOP), 2
-        )
+        self.window.blit(self._bg, (0, ARENA_TOP))
+        pygame.draw.rect(self.window, C_GRAY,
+            (0, ARENA_TOP, WIN_WIDTH, WIN_HEIGHT - ARENA_TOP), 2)
 
         # Entidades
         for ent in self.entity_list:
@@ -125,7 +121,13 @@ class Level:
                     continue
                 self.window.blit(ent.surf, ent.rect)
             else:
-                self.window.blit(ent.surf, ent.rect)
+                if isinstance(ent, Enemy) and ent.invincible > 0 and (ent.invincible // 4) % 2 == 0:
+                    # Piscar vermelho para indicar dano
+                    flash = ent.surf.copy()
+                    flash.fill((255, 80, 80, 180), special_flags=pygame.BLEND_RGBA_MULT)
+                    self.window.blit(flash, ent.rect)
+                else:
+                    self.window.blit(ent.surf, ent.rect)
 
         # HUD por cima de tudo
         self._draw_hud()

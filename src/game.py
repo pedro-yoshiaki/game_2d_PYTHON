@@ -62,7 +62,8 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    return   # qualquer tecla pula a tela
+                    if event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+                        return
 
             # Fundo escuro
             self.window.fill((15, 15, 15))
@@ -80,7 +81,7 @@ class Game:
             cx = WIN_WIDTH // 2
             self._text(title,    48, color,   (cx, panel_y + 70),  bold=True)
             self._text(subtitle, 20, C_WHITE, (cx, panel_y + 130))
-            self._text('Pressione qualquer tecla para continuar', 13, C_GRAY,
+            self._text('Pressione Enter para continuar', 13, C_GRAY,
                        (cx, panel_y + 175))
 
             # Barra de progresso mostrando o tempo restante

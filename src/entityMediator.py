@@ -45,6 +45,7 @@ class EntityMediator:
             enemy.health  -= sword.damage
             enemy.last_dmg = 'Sword'
             sword.health   = 0   # espada consumida após 1 hit
+            enemy.invincible = 20  
 
         elif is_enemy_player:
             player = ent1 if isinstance(ent1, Player) else ent2

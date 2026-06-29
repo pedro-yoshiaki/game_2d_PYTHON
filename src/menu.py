@@ -23,7 +23,7 @@ class Menu:
     ]
     _CONTROLS = [
         ('WASD  /  ←↑↓→',  'Mover o personagem'),
-        ('ESPAÇO',          'Atacar com a espada'),
+        ('ESPAÇO',          'Atacar com a espada / Proteger'),
         ('ENTER',           'Confirmar no menu'),
         ('ESC',             'Sair do jogo'),
     ]

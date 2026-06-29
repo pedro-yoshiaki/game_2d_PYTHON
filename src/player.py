@@ -5,7 +5,7 @@ from src.entity import Entity
 from src.Const import (
     PLAYER_KEYS, PLAYER_LIVES, ENTITY_SPEED,
     SWORD_COOLDOWN,
-    ARENA_LEFT, ARENA_RIGHT, ARENA_TOP, ARENA_BOTTOM,
+    ARENA_LEFT, ARENA_RIGHT, ARENA_TOP, ARENA_BOTTOM, SWORD_DURATION,
 )
 
 
@@ -57,8 +57,12 @@ class Player(Entity):
             return []
 
         self.sword_cooldown = SWORD_COOLDOWN
+        
+        # ---> LINHA ADICIONADA AQUI <---
+        # O jogador ganha invencibilidade pelo tempo exato que o anel de espadas durar
+        self.invincible = SWORD_DURATION 
 
-        from src.sword import create_sword_ring   # importação local
+        from src.sword import create_sword_ring   # importação local mantida
         return create_sword_ring(self.rect.center)
 
     # ── Receber dano ───────────────────────────────────────────────────────────
